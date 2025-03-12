@@ -15,15 +15,16 @@ def fieller_confidence_interval(sample1, sample2, confidence=0.95):
 
     s1_sq = var1 / n1
     s2_sq = var2 / n2
-    s_ratio_sq = s1_sq / mean2**2 + (mean1**2 * s2_sq) / mean2**4
+    covariance = 0  # Assuming independence of samples
+    numerator = (mean1 / mean2) ** 2 * s2_sq + s1_sq - 2 * (mean1 / mean2) * covariance
+    denominator = mean2 ** 2 - t_crit ** 2 * s2_sq
 
-    delta = t_crit**2 * s2_sq / mean2**2 - 1
-    if delta >= 0:
-        root_term = np.sqrt(t_crit**2 * s_ratio_sq)
-        lower = (mean1 / mean2 - root_term) / (1 + delta)
-        upper = (mean1 / mean2 + root_term) / (1 + delta)
-    else:
-        lower, upper = float('-inf'), float('inf')  # Fieller's method suggests unbounded interval
+    if denominator <= 0:
+        return float('-inf'), float('inf')  # Fieller’s method suggests unbounded interval
+
+    root_term = np.sqrt(t_crit**2 * numerator / denominator)
+    lower = mean1 / mean2 - root_term
+    upper = mean1 / mean2 + root_term
 
     return lower, upper
 
@@ -58,11 +59,12 @@ def analyze_file(file_path):
     
     return a_counts
 
-file_path1 = 'Data/M864ProneNoisy.txt'  # Replace with your file path
-file_path2 = 'Data/M795PDProneNoisy.txt'  # Replace with your file path
+file_path1 = 'Data/M864Noisy.txt'  # Replace with your file path
+file_path2 = 'Data/M795PDNoisy.txt'  # Replace with your file path
 
 sample1 = analyze_file(file_path1)
 sample2 = analyze_file(file_path2)
+
 
 fieller_ci = fieller_confidence_interval(sample1, sample2)
 bootstrap_ci = bootstrap_confidence_interval(sample1, sample2)

@@ -15,7 +15,7 @@ def analyze_file(file_path):
     
     return mean, std_dev, sample_size
 
-file_path = 'Data/M795PDUncoveredTest.txt'  # Replace with your file path
+file_path = 'Data/M795PDProneNoisy.txt'  # Replace with your file path
 mean, std_dev, sample_size = analyze_file(file_path)
 print(file_path)
 print(f"Mean: {mean}, Standard Deviation: {std_dev}, Sample Size: {sample_size}")
