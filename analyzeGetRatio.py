@@ -60,7 +60,7 @@ def analyze_file(file_path):
     return a_counts
 
 file_path1 = 'Data/M864ProneNoisy.txt'  # Replace with your file path
-file_path2 = 'Data/M795PDProneNoisy.txt'  # Replace with your file path
+file_path2 = 'Data/M795ABProneNoisy.txt'  # Replace with your file path
 
 sample1 = analyze_file(file_path1)
 sample2 = analyze_file(file_path2)
